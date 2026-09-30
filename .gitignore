@@ -1,0 +1,37 @@
+# OS / éditeurs
+.DS_Store
+.idea/
+.vscode/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+ios/
+android/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Claude Code (réglages locaux)
+.claude/settings.local.json
+
+# Tests
+coverage/
