@@ -49,7 +49,7 @@ Principes :
 - **Évaluation paresseuse** : chaque joueur a `lastTickAt` ; avant toute action le concernant (la sienne, ou un vol contre lui), le serveur rejoue ses actualisations horaires manquées via `advance(state, now)` (déterministe, RNG seedé dans l'état). Pas besoin d'un tick global toutes les heures.
 - Client : **Zustand** + cache local, affichage optimiste recalculé avec le même moteur.
 - Notifications : **push** (expo-notifications + envoi serveur) pour les événements causés par d'autres joueurs (vols, chat) ; locales pour les rappels prévisibles (soif, séchage).
-- Données de jeu (variétés, habitations, lieux, matériel, métiers, banque) en **fichiers de config typés** (`packages/engine/data/`) → équilibrage sans toucher au code.
+- Données de jeu (variétés, habitations, lieux, matériel, métiers, banque) en **fichiers de config typés** (`packages/engine/src/data/`) → équilibrage sans toucher au code.
 
 ```
 apps/mobile/
@@ -57,10 +57,12 @@ apps/mobile/
   store/          # zustand + cache
   notifications/
   ui/
-packages/engine/  # partagé client + serveur
-  systems/        # growth.ts, sales.ts, police.ts, taxes.ts, bank.ts, theft.ts, market.ts, events.ts
-  advance.ts      # rattrapage de N ticks
-  data/           # varieties.ts, housings.ts, places.ts, equipment.ts, jobs.ts, bank.ts, balance.ts
+packages/engine/src/  # partagé client + serveur (aucune dépendance)
+  data/           # varieties, housings, equipment, balance (+ à venir : places, jobs, bank)
+  systems/        # actualisation horaire : growth (+ à venir : sales, police, taxes, bank, theft, market)
+  actions/        # actions joueur pures (state → nouvel état, GameError si refus) : shop, culture
+  advance.ts      # rattrapage des actualisations horaires manquées
+  state.ts, rng.ts, errors.ts
 supabase/
   migrations/     # schéma SQL + RLS
   functions/      # edge functions (actions de jeu) important packages/engine
@@ -68,7 +70,12 @@ docs/
   weedland-reference.md
 ```
 
+## Commandes
+- `npm test` : tests de tous les workspaces (Vitest) · `npm run typecheck`
+- `npm test -w @weedapp/engine` : tests du moteur seul
+
 ## Conventions
+- Les actions ne modifient jamais l'état reçu : elles clonent, puis renvoient le nouvel état ou lèvent une `GameError` (code métier).
 - Toute règle de jeu vit dans `engine/` + `data/`, jamais dans les composants.
 - Toute valeur d'équilibrage vient de `data/` (pas de nombres magiques dans le moteur).
 - Chaque système du moteur a ses tests unitaires (croissance, surdose/mort, vente/indice, impôts).
