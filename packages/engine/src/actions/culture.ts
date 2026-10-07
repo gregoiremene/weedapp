@@ -1,10 +1,10 @@
-import { BALANCE } from '../data/balance';
-import { HOUSINGS } from '../data/housings';
-import { POTS, type PotSize } from '../data/equipment';
-import type { VarietyId } from '../data/varieties';
-import { GameError } from '../errors';
-import { randomBetween, chance } from '../rng';
-import { addLog, cloneState, growingPlants, type GameState, type Germ, type Plant, type Room } from '../state';
+import { BALANCE } from '../data/balance.ts';
+import { HOUSINGS } from '../data/housings.ts';
+import { POTS, type PotSize } from '../data/equipment.ts';
+import type { VarietyId } from '../data/varieties.ts';
+import { GameError } from '../errors.ts';
+import { randomBetween, chance } from '../rng.ts';
+import { addLog, cloneState, growingPlants, type GameState, type Germ, type Plant, type Room } from '../state.ts';
 
 /** Plants ciblés : liste d'ids, une salle entière, ou tous les plants en pousse. */
 export type PlantSelector = number[] | { room: Room } | 'all';

@@ -1,5 +1,5 @@
-import { advance } from './advance';
-import { createInitialState, HOUR_MS, type GameState, type Plant } from './state';
+import { advance } from './advance.ts';
+import { createInitialState, HOUR_MS, type GameState, type Plant } from './state.ts';
 
 /** Lundi 5 octobre 2026, 08:00 UTC (heure pleine). */
 export const T0 = Date.UTC(2026, 9, 5, 8, 0, 0);

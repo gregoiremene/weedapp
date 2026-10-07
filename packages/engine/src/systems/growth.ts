@@ -1,7 +1,7 @@
-import { BALANCE } from '../data/balance';
-import { EQUIPMENT, EQUIPMENT_IDS, POTS, type EquipmentKind } from '../data/equipment';
-import { chance, randomBetween, randomInt } from '../rng';
-import { addLog, growingPlants, type DeathCause, type GameState, type Plant, type Room } from '../state';
+import { BALANCE } from '../data/balance.ts';
+import { EQUIPMENT, EQUIPMENT_IDS, POTS, type EquipmentKind } from '../data/equipment.ts';
+import { chance, randomBetween, randomInt } from '../rng.ts';
+import { addLog, growingPlants, type DeathCause, type GameState, type Plant, type Room } from '../state.ts';
 
 export type GrowthEvent =
   | { type: 'germs_ready'; count: number }

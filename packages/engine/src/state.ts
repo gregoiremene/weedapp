@@ -1,7 +1,9 @@
-import { BALANCE } from './data/balance';
-import { EQUIPMENT_IDS, POT_SIZES, type EquipmentId, type PotSize } from './data/equipment';
-import type { HousingId } from './data/housings';
-import { VARIETY_IDS, type VarietyId } from './data/varieties';
+import { BALANCE } from './data/balance.ts';
+import { EQUIPMENT_IDS, POT_SIZES, type EquipmentId, type PotSize } from './data/equipment.ts';
+import type { HousingId } from './data/housings.ts';
+import type { JobId } from './data/jobs.ts';
+import type { PlaceId } from './data/places.ts';
+import { VARIETY_IDS, type VarietyId } from './data/varieties.ts';
 
 export const HOUR_MS = 3_600_000;
 
@@ -58,6 +60,17 @@ export interface Inventory {
   equipment: Record<EquipmentId, number>;
 }
 
+/** Vente en cours dans un lieu public/privé. */
+export interface Sale {
+  placeId: PlaceId;
+  variety: VarietyId;
+  gramsLeft: number;
+  gramsSold: number;
+  /** Argent ramassé sur place, confisqué en cas de descente. */
+  earned: number;
+  startedAt: number;
+}
+
 export interface LogEntry {
   at: number;
   type: string;
@@ -79,7 +92,17 @@ export interface GameState {
   lightHours: Record<Room, number>;
   germs: Germ[];
   plants: Plant[];
-  meters: { waterCl: number };
+  sales: Sale[];
+  /** Argent placé sur le livret (à l'abri des voleurs et de l'ISF). */
+  bankBalance: number;
+  policeIndex: number;
+  /** Indice au-dessus du maximum : les stups débarquent à l'actualisation suivante. */
+  raidPending: boolean;
+  job: JobId;
+  guards: number;
+  thefts: { dayKey: string; count: number };
+  /** Consommations de la semaine, facturées avec les impôts. */
+  meters: { waterCl: number; kwh: number };
   log: LogEntry[];
 }
 
@@ -111,7 +134,14 @@ export function createInitialState(now: number, seed: number): GameState {
     lightHours: { ...BALANCE.start.lightHours },
     germs: [],
     plants: [],
-    meters: { waterCl: 0 },
+    sales: [],
+    bankBalance: 0,
+    policeIndex: 0,
+    raidPending: false,
+    job: 'none',
+    guards: 0,
+    thefts: { dayKey: '', count: 0 },
+    meters: { waterCl: 0, kwh: 0 },
     log: [],
   };
 }

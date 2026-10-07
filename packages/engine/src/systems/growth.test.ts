@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { advance } from '../advance';
-import { discardMales, fillToMax, plantFastestGerms, sowSeeds, treatPlants, waterPlants } from '../actions/culture';
-import { HOUR_MS, type GameState } from '../state';
-import { addPlant, equippedGame, hoursLater, plantById, T0 } from '../test-utils';
-import { equipmentFactor, lightFactor } from './growth';
+import { advance } from '../advance.ts';
+import { discardMales, fillToMax, plantFastestGerms, sowSeeds, treatPlants, waterPlants } from '../actions/culture.ts';
+import { HOUR_MS, type GameState } from '../state.ts';
+import { addPlant, equippedGame, hoursLater, plantById, T0 } from '../test-utils.ts';
+import { equipmentFactor, lightFactor } from './growth.ts';
 
 describe('eau et engrais', () => {
   it("un plant planté sans arrosage meurt à l'actualisation suivante", () => {

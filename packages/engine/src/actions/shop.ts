@@ -1,7 +1,7 @@
-import { CONSUMABLES, EQUIPMENT, POTS, type ConsumableId, type EquipmentId, type PotSize } from '../data/equipment';
-import { SEEDS_PER_PACK, VARIETIES, type VarietyId } from '../data/varieties';
-import { GameError } from '../errors';
-import { addLog, cloneState, type GameState } from '../state';
+import { CONSUMABLES, EQUIPMENT, POTS, type ConsumableId, type EquipmentId, type PotSize } from '../data/equipment.ts';
+import { SEEDS_PER_PACK, VARIETIES, type VarietyId } from '../data/varieties.ts';
+import { GameError } from '../errors.ts';
+import { addLog, cloneState, type GameState } from '../state.ts';
 
 export type ShopItem =
   | { kind: 'seeds'; variety: VarietyId }

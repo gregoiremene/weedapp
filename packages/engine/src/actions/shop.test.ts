@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { GameError } from '../errors';
-import { newGame, T0 } from '../test-utils';
-import { buy, type ShopItem } from './shop';
+import { GameError } from '../errors.ts';
+import { newGame, T0 } from '../test-utils.ts';
+import { buy, type ShopItem } from './shop.ts';
 
 describe('boutique', () => {
   it('démarre avec 2 000 Wl, la Chambre et le stock offert', () => {

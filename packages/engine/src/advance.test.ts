@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { advance } from './advance';
-import { random } from './rng';
-import { HOUR_MS } from './state';
-import { addPlant, equippedGame, newGame, T0 } from './test-utils';
+import { advance } from './advance.ts';
+import { random } from './rng.ts';
+import { HOUR_MS } from './state.ts';
+import { addPlant, equippedGame, newGame, T0 } from './test-utils.ts';
 
 describe('rng', () => {
   it('est déterministe pour une même graine', () => {

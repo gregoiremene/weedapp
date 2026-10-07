@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addPlant, equippedGame, hoursLater, plantById, T0 } from '../test-utils';
+import { addPlant, equippedGame, hoursLater, plantById, T0 } from '../test-utils.ts';
 import {
   clearDead,
   discardMales,
@@ -12,7 +12,7 @@ import {
   sowSeeds,
   treatPlants,
   waterPlants,
-} from './culture';
+} from './culture.ts';
 
 describe('germination', () => {
   it('place des graines dans la limite des kits (15 par kit)', () => {

@@ -1,4 +1,4 @@
-import type { VarietyId } from './varieties';
+import type { VarietyId } from './varieties.ts';
 
 /**
  * Toutes les constantes d'équilibrage du moteur.
@@ -88,6 +88,65 @@ export const BALANCE = {
     fullPollinationHours: 60,
     /** Un mâle pollinise à partir de cette taille (même gelé). */
     malePollinationHeight: 100,
+  },
+
+  market: {
+    /** Les prix de revente sont réévalués à chaque période (alignée sur le lundi 00h UTC). */
+    repricePeriodHours: 168,
+    /** Facteur appliqué au prix de base de chaque variété, tiré par période. */
+    minFactor: 0.6,
+    maxFactor: 1.5,
+    /** Graine fixe du marché : tous les joueurs voient les mêmes prix. */
+    seed: 20_260_930,
+  },
+
+  police: {
+    /**
+     * Indice gagné par heure = grammes vendus × risque (%) × ce facteur.
+     * Calibré sur l'original : 158 g/h à 0,75 % → +11,85/h.
+     */
+    indexPerGramRisk: 0.1,
+    /** Baisse horaire sans vente en cours, en % de l'indice max de l'habitation. */
+    decayPercentOfMaxPerHour: 2.5,
+    /** Amende lors d'une descente des stups = indice × ce montant. */
+    raidFinePerIndex: 30,
+    /** Le commissaire corrompu remet l'indice à 0 pour indice × ce montant. */
+    bribePerIndex: 20,
+  },
+
+  economy: {
+    /** Impôts, salaire et intérêts tombent le lundi à cette heure (heure du jeu). */
+    weeklyWeekday: 1,
+    weeklyHour: 4,
+    electricityPerKwh: 0.8,
+    waterPerCl: 0.09,
+    /** ISF : taux appliqué à la part de la bourse au-dessus du seuil. */
+    wealthTaxThreshold: 15_000,
+    wealthTaxRate: 0.06,
+  },
+
+  /** Livret unique de la V0. */
+  bank: {
+    weeklyInterestRate: 0.015,
+    withdrawalFeeRate: 0.025,
+    cap: 25_000_000,
+  },
+
+  security: {
+    guardHireCost: 500,
+    guardWeeklyCost: 200,
+    guardFireCost: 1_250,
+  },
+
+  theft: {
+    costPerThief: 3_000,
+    attacksPerDay: 3,
+    /** La victime doit posséder au moins cette habitation (en dessous : inattaquable). */
+    minVictimHousingLevel: 3,
+    /** Part maximale de la bourse (argent et beuh) volée en cas de réussite. */
+    maxStealFraction: 0.1,
+    minStealFraction: 0.05,
+    detectiveCost: 250,
   },
 
   log: { maxEntries: 50 },
