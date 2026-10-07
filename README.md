@@ -30,6 +30,16 @@ npx expo start --ios
 - **Expo Go** (le plus simple pour tester) : `npx expo start --ios` dans `apps/mobile`, ou scanner le QR code avec l'app Expo Go sur un téléphone ;
 - **EAS Build** (compilation dans le cloud) : `npx eas-cli@latest build --profile development --platform ios`.
 
+## Version web
+
+L'app tourne aussi dans un navigateur (sans notifications). Hébergement prévu : **EAS Hosting**, qui donne une adresse gratuite `https://<nom>.expo.app` (domaine personnalisé : plan payant). Une fois connecté avec `npx eas-cli@latest login`, depuis `apps/mobile` :
+
+```bash
+npm run web:deploy
+```
+
+Le premier déploiement demande de créer le projet EAS et de choisir le sous-domaine. Les variables `EXPO_PUBLIC_SUPABASE_*` de `.env.local` sont intégrées au moment de l'export.
+
 ## Brancher Supabase
 
 1. Créer un projet sur supabase.com, puis lier le dépôt :

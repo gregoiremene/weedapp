@@ -1,11 +1,12 @@
 import { HOUSINGS, JOBS } from '@weedapp/engine';
 import { Link, type Href } from 'expo-router';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSession } from '@/auth/session';
 import { resetLocalGame } from '@/game/client';
 import { useGame, useGameState } from '@/game/store';
 import { isOnline } from '@/lib/supabase';
 import { Button, Card, Muted, Screen } from '@/ui/components';
+import { confirm } from '@/ui/confirm';
 import { colors, spacing } from '@/ui/theme';
 
 function NavRow({ href, title, detail }: { href: Href; title: string; detail: string }) {
@@ -62,17 +63,10 @@ export default function MoreScreen() {
               label="Recommencer la partie"
               variant="danger"
               onPress={() =>
-                Alert.alert('Recommencer ?', 'Ta partie locale sera effacée.', [
-                  { text: 'Annuler', style: 'cancel' },
-                  {
-                    text: 'Effacer',
-                    style: 'destructive',
-                    onPress: () => {
-                      resetLocalGame();
-                      void sync();
-                    },
-                  },
-                ])
+                confirm('Recommencer ?', 'Ta partie locale sera effacée.', 'Effacer', () => {
+                  resetLocalGame();
+                  void sync();
+                })
               }
             />
           </>

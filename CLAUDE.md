@@ -78,6 +78,7 @@ docs/
 - `npm run functions:check` : copie le moteur dans les fonctions et vérifie leur typage (Deno)
 - `npm run functions:deploy` · `npm run db:push` : déploiement Supabase (projet lié)
 - `npm run ios -w @weedapp/mobile` : build natif + simulateur · `npx expo export` (dans apps/mobile) : vérifie le bundle
+- `npm run web:deploy -w @weedapp/mobile` : export web + déploiement EAS Hosting (`<nom>.expo.app`)
 - Mise en route complète : [README.md](README.md)
 
 ## Conventions
@@ -97,4 +98,5 @@ docs/
 - 2026-09-30 : en V0 → chat global, banque à 1 livret, vols + gardes, les 7 habitations ; grossiste repoussé en V1.
 - 2026-09-30 : stack Expo + Supabase + moteur TS partagé ; **un seul monde et un chat global** (pas de mondes privés) ; modération manuelle avec ban temporaire ; stock de départ offert.
 - 2026-10-07 : ISF calculé sur la part de la bourse au-dessus du seuil (pas de cliff) ; au passage en floraison, eau/engrais convertis pour garder la même autonomie ; « Disney Village » renommé « Parc d'attractions » (pas de marque).
+- 2026-10-07 : le jeu doit aussi être jouable sur le web (export Metro `single`, hébergement EAS Hosting) ; pas de notifications sur le web.
 - Ordre de travail : 1) moteur de culture + tests (local) 2) Supabase + comptes + banque 3) ventes, police, impôts 4) chat + modération, puis vols + gardes.

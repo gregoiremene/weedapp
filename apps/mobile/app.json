@@ -21,7 +21,12 @@
       "package": "app.weedapp.mobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "output": "single",
+      "bundler": "metro",
+      "name": "WeedApp",
+      "themeColor": "#0F1A12",
+      "backgroundColor": "#0F1A12"
     },
     "plugins": [
       "expo-router",

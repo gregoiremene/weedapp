@@ -5,7 +5,10 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { supabase } from '@/lib/supabase';
 
-Notifications.setNotificationHandler({
+// Pas de notifications locales ni push sur le web : tout ce module devient inactif.
+const supported = Platform.OS !== 'web';
+
+if (supported) Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldPlaySound: false,
     shouldSetBadge: false,
@@ -22,6 +25,7 @@ const THIRST_WARNING_HOURS = 3;
 let permission: boolean | undefined;
 
 async function ensurePermission(): Promise<boolean> {
+  if (!supported) return false;
   if (permission !== undefined) return permission;
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('game', { name: 'Exploitation', importance: Notifications.AndroidImportance.HIGH });
