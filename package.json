@@ -12,5 +12,9 @@
     "functions:check": "npm run sync:engine && cd supabase/functions && npx --yes deno check game/index.ts pvp/index.ts",
     "functions:deploy": "npm run sync:engine && npx --yes supabase functions deploy game pvp",
     "db:push": "npx --yes supabase db push"
+  },
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   }
 }
