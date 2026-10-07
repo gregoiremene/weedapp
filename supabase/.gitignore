@@ -1,0 +1,11 @@
+# Supabase
+.branches
+.temp
+
+# dotenvx
+.env.keys
+.env.local
+.env.*.local
+
+# Copie générée du moteur (npm run sync:engine)
+functions/_shared/engine/
