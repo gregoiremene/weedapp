@@ -52,20 +52,22 @@ Principes :
 - Données de jeu (variétés, habitations, lieux, matériel, métiers, banque) en **fichiers de config typés** (`packages/engine/src/data/`) → équilibrage sans toucher au code.
 
 ```
-apps/mobile/
-  app/            # écrans (Expo Router) : exploitation, salles, boutique, vendre, banque, ville, squatte, profil
-  store/          # zustand + cache
-  notifications/
-  ui/
-packages/engine/src/  # partagé client + serveur (aucune dépendance)
-  data/           # varieties, housings, equipment, balance (+ à venir : places, jobs, bank)
-  systems/        # actualisation horaire : growth (+ à venir : sales, police, taxes, bank, theft, market)
-  actions/        # actions joueur pures (state → nouvel état, GameError si refus) : shop, culture
+apps/mobile/src/      # app Expo (SDK 57) — lire apps/mobile/AGENTS.md : vérifier la doc Expo versionnée avant toute API
+  app/            # écrans Expo Router : (tabs)/ index (exploitation), shop, sell, bank, chat, more ; housing, jobs, players, journal, login
+  game/           # client de jeu (Supabase ou démo locale), store zustand, libellés FR
+  auth/           # session Supabase + profil (rôle)
+  lib/supabase.ts # client (null si non configuré → mode démo hors ligne)
+  notifications.ts# rappels locaux (projection du moteur) + jeton push
+  ui/             # thème et composants
+packages/engine/src/  # partagé client + serveur (aucune dépendance, imports en .ts explicites)
+  data/           # varieties, housings, equipment, places, jobs, balance
+  systems/        # actualisation horaire : growth, sales (+ police), market, economy (impôts, intérêts)
+  actions/        # actions joueur pures : shop, culture, economy, pvp ; dispatch.ts = parseAction + applyAction
   advance.ts      # rattrapage des actualisations horaires manquées
-  state.ts, rng.ts, errors.ts
+  clock.ts        # heure du jeu (Europe/Paris)
 supabase/
   migrations/     # schéma SQL + RLS
-  functions/      # edge functions (actions de jeu) important packages/engine
+  functions/      # game (action joueur), pvp (vol, détective) ; _shared/engine = copie générée (npm run sync:engine)
 docs/
   weedland-reference.md
 ```
@@ -73,6 +75,10 @@ docs/
 ## Commandes
 - `npm test` : tests de tous les workspaces (Vitest) · `npm run typecheck`
 - `npm test -w @weedapp/engine` : tests du moteur seul
+- `npm run functions:check` : copie le moteur dans les fonctions et vérifie leur typage (Deno)
+- `npm run functions:deploy` · `npm run db:push` : déploiement Supabase (projet lié)
+- `npm run ios -w @weedapp/mobile` : build natif + simulateur · `npx expo export` (dans apps/mobile) : vérifie le bundle
+- Mise en route complète : [README.md](README.md)
 
 ## Conventions
 - Les actions ne modifient jamais l'état reçu : elles clonent, puis renvoient le nouvel état ou lèvent une `GameError` (code métier).
@@ -83,10 +89,12 @@ docs/
 
 ## Décisions ouvertes
 - Nom du jeu / DA (cartoon ? pixel ?), thème final (cannabis assumé vs reskin plus neutre selon politiques App Store / Play Store).
-- Quantité exacte du stock de départ.
+- Quantité exacte du stock de départ (150 g de Super Skunk pour l'instant).
+- Formules provisoires à équilibrer en jeu : baisse de l'indice police (2,5 % du max/h), réussite d'un vol (voleurs / (voleurs + gardes)), part volée (5-10 %), prix réévalués chaque semaine (×0,6 à ×1,5), livret unique (1,5 %/sem., plafond 25 M), électricité/eau.
 
 ## Décisions prises
 - 2026-09-30 : cycle complet ~1 semaine, 2 sessions courtes/jour (pas de cycle compressé à 1 jour).
 - 2026-09-30 : en V0 → chat global, banque à 1 livret, vols + gardes, les 7 habitations ; grossiste repoussé en V1.
 - 2026-09-30 : stack Expo + Supabase + moteur TS partagé ; **un seul monde et un chat global** (pas de mondes privés) ; modération manuelle avec ban temporaire ; stock de départ offert.
+- 2026-10-07 : ISF calculé sur la part de la bourse au-dessus du seuil (pas de cliff) ; au passage en floraison, eau/engrais convertis pour garder la même autonomie ; « Disney Village » renommé « Parc d'attractions » (pas de marque).
 - Ordre de travail : 1) moteur de culture + tests (local) 2) Supabase + comptes + banque 3) ventes, police, impôts 4) chat + modération, puis vols + gardes.
