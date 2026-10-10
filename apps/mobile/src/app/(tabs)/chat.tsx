@@ -1,4 +1,4 @@
-import { useHeaderHeight } from 'expo-router/react-navigation';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSession, type Profile } from '@/auth/session';

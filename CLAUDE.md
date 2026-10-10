@@ -52,7 +52,7 @@ Principes :
 - Données de jeu (variétés, habitations, lieux, matériel, métiers, banque) en **fichiers de config typés** (`packages/engine/src/data/`) → équilibrage sans toucher au code.
 
 ```
-apps/mobile/src/      # app Expo (SDK 57) — lire apps/mobile/AGENTS.md : vérifier la doc Expo versionnée avant toute API
+apps/mobile/src/      # app Expo (SDK 54, RN 0.81) — vérifier la doc Expo v54 (docs.expo.dev/versions/v54.0.0/) avant toute API
   app/            # écrans Expo Router : (tabs)/ index (exploitation), shop, sell, bank, chat, more ; housing, jobs, players, journal, login
   game/           # client de jeu (Supabase ou démo locale), store zustand, libellés FR
   auth/           # session Supabase + profil (rôle)
@@ -99,4 +99,5 @@ docs/
 - 2026-09-30 : stack Expo + Supabase + moteur TS partagé ; **un seul monde et un chat global** (pas de mondes privés) ; modération manuelle avec ban temporaire ; stock de départ offert.
 - 2026-10-07 : ISF calculé sur la part de la bourse au-dessus du seuil (pas de cliff) ; au passage en floraison, eau/engrais convertis pour garder la même autonomie ; « Disney Village » renommé « Parc d'attractions » (pas de marque).
 - 2026-10-07 : le jeu doit aussi être jouable sur le web (export Metro `single`, hébergement EAS Hosting) ; pas de notifications sur le web.
+- 2026-10-10 : projet rétrogradé de SDK 57 à **SDK 54** (Expo Go de l'utilisateur·rice en 54 ; compatible Xcode 16.1+, donc build iOS local possible).
 - Ordre de travail : 1) moteur de culture + tests (local) 2) Supabase + comptes + banque 3) ventes, police, impôts 4) chat + modération, puis vols + gardes.

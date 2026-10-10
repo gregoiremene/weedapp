@@ -8,7 +8,7 @@ Vision, périmètre et architecture : [CLAUDE.md](CLAUDE.md). Référence du jeu
 | Dossier | Rôle |
 |---|---|
 | `packages/engine` | Moteur de jeu en TypeScript pur (règles, données, actualisation horaire). Partagé app + serveur. |
-| `apps/mobile` | App Expo (SDK 57, Expo Router). |
+| `apps/mobile` | App Expo (SDK 54, Expo Router). |
 | `supabase` | Migrations SQL (schéma, RLS) et Edge Functions `game` / `pvp` qui exécutent le moteur. |
 
 ## Lancer l'app en mode démo (sans serveur)
@@ -20,12 +20,12 @@ npm install
 ```
 
 ```bash
-npx expo start --ios
+npx expo start
 ```
 
-(à lancer dans `apps/mobile` ; voir ci-dessous pour un build natif)
+(à lancer dans `apps/mobile`, puis scanner le QR code avec Expo Go **SDK 54** ; voir ci-dessous pour un build natif)
 
-`expo run:ios` compile l'app native : il faut **Xcode 26.4 ou plus** (exigence du SDK Expo 57) et CocoaPods. Sans Xcode à jour, deux options :
+`expo run:ios` compile l'app native : il faut Xcode 16.1 ou plus (SDK Expo 54) et CocoaPods. Autres options :
 
 - **Expo Go** (le plus simple pour tester) : `npx expo start --ios` dans `apps/mobile`, ou scanner le QR code avec l'app Expo Go sur un téléphone ;
 - **EAS Build** (compilation dans le cloud) : `npx eas-cli@latest build --profile development --platform ios`.
