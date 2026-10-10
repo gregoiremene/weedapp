@@ -58,12 +58,13 @@ Le premier déploiement demande de créer le projet EAS et de choisir le sous-do
    npm run functions:deploy
    ```
 
-3. Créer `apps/mobile/.env.local` :
+3. Créer le fichier `apps/mobile/.env.local` (il n'existe pas encore : c'est toi qui le crées, il est ignoré par git) en copiant le modèle :
 
+   ```bash
+   cp apps/mobile/.env.example apps/mobile/.env.local
    ```
-   EXPO_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co
-   EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<clé publishable>
-   ```
+
+   puis y coller l'URL du projet et la clé **publishable** (`sb_publishable_…`), trouvées dans le dashboard Supabase via le bouton « Connect » ou Project Settings > API Keys. Relancer ensuite `npx expo start`.
 
 4. Dans Supabase > Authentication > Email, désactiver « Confirm email » pour tester vite (optionnel).
 5. Se donner le rôle admin (SQL editor) :
