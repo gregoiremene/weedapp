@@ -100,4 +100,5 @@ docs/
 - 2026-10-07 : ISF calculé sur la part de la bourse au-dessus du seuil (pas de cliff) ; au passage en floraison, eau/engrais convertis pour garder la même autonomie ; « Disney Village » renommé « Parc d'attractions » (pas de marque).
 - 2026-10-07 : le jeu doit aussi être jouable sur le web (export Metro `single`, hébergement EAS Hosting) ; pas de notifications sur le web.
 - 2026-10-10 : projet rétrogradé de SDK 57 à **SDK 54** (Expo Go de l'utilisateur·rice en 54 ; compatible Xcode 16.1+, donc build iOS local possible).
+- 2026-10-10 : développement en **Expo Go** (plus rapide) ; notifications désactivées dans Expo Go et sur le web (module chargé à la demande), réactivées automatiquement dans un dev build / build store.
 - Ordre de travail : 1) moteur de culture + tests (local) 2) Supabase + comptes + banque 3) ventes, police, impôts 4) chat + modération, puis vols + gardes.

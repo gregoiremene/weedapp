@@ -1,21 +1,35 @@
 import { advance, HOUR_MS, PLACES, type GameEvent, type GameState } from '@weedapp/engine';
-import Constants from 'expo-constants';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { supabase } from '@/lib/supabase';
 
-// Pas de notifications locales ni push sur le web : tout ce module devient inactif.
-const supported = Platform.OS !== 'web';
+type NotificationsModule = typeof import('expo-notifications');
 
-if (supported) Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+/**
+ * Notifications seulement dans un vrai build (dev build ou store) : ni sur le web, ni dans
+ * Expo Go, qui ne les gère plus depuis le SDK 53. Le module n'est alors même pas chargé.
+ */
+const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+const supported = Platform.OS !== 'web' && !isExpoGo;
+
+let module: NotificationsModule | null = null;
+
+async function load(): Promise<NotificationsModule | null> {
+  if (!supported) return null;
+  if (!module) {
+    module = await import('expo-notifications');
+    module.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+      }),
+    });
+  }
+  return module;
+}
 
 /** Horizon de projection des rappels. */
 const LOOKAHEAD_HOURS = 48;
@@ -24,8 +38,7 @@ const THIRST_WARNING_HOURS = 3;
 
 let permission: boolean | undefined;
 
-async function ensurePermission(): Promise<boolean> {
-  if (!supported) return false;
+async function ensurePermission(Notifications: NotificationsModule): Promise<boolean> {
   if (permission !== undefined) return permission;
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('game', { name: 'Exploitation', importance: Notifications.AndroidImportance.HIGH });
@@ -46,7 +59,8 @@ function first(events: GameEvent[], type: GameEvent['type']): GameEvent | undefi
  */
 export async function scheduleReminders(state: GameState): Promise<void> {
   try {
-    if (!(await ensurePermission())) return;
+    const Notifications = await load();
+    if (!Notifications || !(await ensurePermission(Notifications))) return;
     await Notifications.cancelAllScheduledNotificationsAsync();
     const now = Date.now();
     const { events } = advance(state, now + LOOKAHEAD_HOURS * HOUR_MS);
@@ -78,7 +92,8 @@ export async function scheduleReminders(state: GameState): Promise<void> {
 /** Enregistre le jeton push (vols subis) — nécessite un appareil réel et un projet EAS. */
 export async function registerPushToken(userId: string): Promise<void> {
   try {
-    if (!supabase || !Device.isDevice || !(await ensurePermission())) return;
+    const Notifications = await load();
+    if (!Notifications || !supabase || !Device.isDevice || !(await ensurePermission(Notifications))) return;
     const projectId = Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
     if (!projectId) return;
     const { data: token } = await Notifications.getExpoPushTokenAsync({ projectId });
